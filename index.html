@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta name="description" content="Gestión de conciertos - PWA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Motet</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="header-icon"><i class="fas fa-guitar"></i></div>
+      <h1>Motet</h1>
+    </div>
+  </header>
+
+  <!-- ============ VIEW: WEEKLY ============ -->
+  <main id="view-weekly" class="view active">
+    <div class="view-header">
+      <h2><i class="fas fa-calendar-week"></i> Esta Semana</h2>
+      <span id="week-range" class="week-range"></span>
+    </div>
+    <div id="weekly-list" class="concert-list">
+      <!-- concerts injected here -->
+    </div>
+    <div id="weekly-empty" class="empty-state hidden">
+      <div class="empty-icon">🎸</div>
+      <p>No hay conciertos esta semana</p>
+      <span>Pulsa el botón para añadir uno</span>
+    </div>
+  </main>
+
+  <!-- ============ VIEW: CALENDAR ============ -->
+  <main id="view-calendar" class="view">
+    <div class="view-header">
+      <div class="calendar-year-nav">
+        <button id="prev-year" class="year-btn" aria-label="Año anterior"><i class="fas fa-chevron-left"></i></button>
+        <h2 id="calendar-year"><i class="fas fa-calendar-alt"></i> <span></span></h2>
+        <button id="next-year" class="year-btn" aria-label="Año siguiente"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div id="months-grid" class="months-grid">
+      <!-- 12 months injected here -->
+    </div>
+  </main>
+
+  <!-- ============ FAB ============ -->
+  <button id="fab-add" class="fab" aria-label="Añadir concierto">
+    <i class="fas fa-guitar"></i>
+  </button>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-view="weekly">
+      <i class="fas fa-calendar-week"></i>
+      <span>Semana</span>
+    </button>
+    <button class="nav-btn" data-view="calendar">
+      <i class="fas fa-calendar-alt"></i>
+      <span>Calendario</span>
+    </button>
+  </nav>
+
+  <!-- ============ MODAL: ADD / EDIT ============ -->
+  <div id="modal-form" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title"><i class="fas fa-plus-circle"></i> Nuevo Concierto</h3>
+        <button id="modal-close" class="modal-close-btn" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="concert-form" class="concert-form" autocomplete="off">
+        <input type="hidden" id="edit-id">
+
+        <div class="form-group">
+          <label for="field-band"><i class="fas fa-users"></i> Banda</label>
+          <select id="field-band" required>
+            <option value="">Selecciona banda...</option>
+            <option>Calavera Mot</option>
+            <option>Aguafiestas</option>
+            <option>Radio Vespa</option>
+            <option>Melomaniax</option>
+            <option>Palorrosa</option>
+            <option>Doctor Inferno</option>
+            <option>Causa Perdida</option>
+            <option>Los Vinilo</option>
+            <option>Modo avión</option>
+            <option>Stereolovers</option>
+            <option>Turbo Bikini</option>
+            <option>Retrovértigo</option>
+            <option>Lagarto Power</option>
+            <option>Kill your idols</option>
+            <option>Espíritu del vino</option>
+            <option>Calavera Tributo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="field-date"><i class="fas fa-calendar-day"></i> Fecha</label>
+          <input type="date" id="field-date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="field-type"><i class="fas fa-tag"></i> Tipo de evento</label>
+          <select id="field-type" required>
+            <option value="">Selecciona tipo...</option>
+            <option>Pub</option>
+            <option>Fiesta Privada</option>
+            <option>Fiesta Ayuntamiento</option>
+            <option>Feria</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="field-place"><i class="fas fa-map-marker-alt"></i> Lugar</label>
+          <input type="text" id="field-place" placeholder="Pueblo o sala..." required>
+        </div>
+
+        <button type="submit" class="btn-save">
+          <i class="fas fa-save"></i> Guardar concierto
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ BOTTOM SHEET: ACTIONS ============ -->
+  <div id="action-sheet" class="action-sheet-overlay hidden">
+    <div class="action-sheet">
+      <div class="action-sheet-handle"></div>
+      <div id="action-sheet-info" class="action-sheet-info"></div>
+      <button id="action-edit" class="action-btn edit">
+        <i class="fas fa-pen"></i> Editar concierto
+      </button>
+      <button id="action-delete" class="action-btn delete">
+        <i class="fas fa-trash-alt"></i> Borrar concierto
+      </button>
+      <button id="action-cancel" class="action-btn cancel">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRM DELETE ============ -->
+  <div id="confirm-overlay" class="confirm-overlay hidden">
+    <div class="confirm-dialog">
+      <div class="confirm-icon"><i class="fas fa-exclamation-triangle"></i></div>
+      <p>¿Eliminar este concierto?</p>
+      <span id="confirm-detail" class="confirm-detail"></span>
+      <div class="confirm-actions">
+        <button id="confirm-no" class="btn-confirm cancel">Cancelar</button>
+        <button id="confirm-yes" class="btn-confirm danger">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
