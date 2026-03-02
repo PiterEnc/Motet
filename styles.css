@@ -5,27 +5,29 @@
 
 /* ---------- CSS Variables ---------- */
 :root {
-  --bg-primary: #0d0d0d;
-  --bg-card: #1a1a2e;
-  --bg-card-alt: #16213e;
-  --bg-surface: #0f0f23;
-  --bg-input: #1a1a2e;
-  --accent: #e94560;
-  --accent-glow: rgba(233, 69, 96, 0.35);
-  --accent-secondary: #ff6b6b;
-  --text-primary: #eaeaea;
-  --text-secondary: #8a8a9a;
-  --text-muted: #555566;
-  --border: #2a2a3e;
+  --bg-primary: #000000;
+  --bg-card: #b0a3ff;
+  --bg-card-alt: #9f8cff;
+  --bg-surface: #111111;
+  --bg-input: #1a1a1a;
+  --accent: #b0a3ff;
+  --accent-glow: rgba(176, 163, 255, 0.35);
+  --accent-secondary: #dcd0ff;
+  --text-primary: #ffffff;
+  --text-secondary: #999999;
+  --text-muted: #555555;
+  --text-on-card: #000000;
+  --text-on-card-muted: #333333;
+  --border: #222222;
   --success: #00d68f;
   --warning: #ffaa00;
   --danger: #ff4757;
-  --gradient-accent: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-  --gradient-card: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+  --gradient-accent: linear-gradient(135deg, #b0a3ff 0%, #dcd0ff 100%);
+  --gradient-card: linear-gradient(145deg, #b0a3ff 0%, #a291ff 100%);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 20px var(--accent-glow);
-  --radius: 14px;
-  --radius-sm: 10px;
+  --radius: 24px;
+  --radius-sm: 16px;
   --nav-height: 64px;
   --header-height: 60px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -178,9 +180,9 @@ body {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
-  background: var(--gradient-accent);
-  border-radius: 2px;
+  width: 6px;
+  background: var(--bg-primary);
+  border-radius: 3px;
 }
 
 .concert-card:active {
@@ -196,9 +198,9 @@ body {
 }
 
 .concert-card .band-name {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text-on-card);
   line-height: 1.2;
 }
 
@@ -207,10 +209,11 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: rgba(233, 69, 96, 0.15);
-  color: var(--accent);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-on-card);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -218,14 +221,15 @@ body {
 .concert-card .card-bottom {
   display: flex;
   gap: 14px;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+  font-size: 0.85rem;
+  color: var(--text-on-card-muted);
+  font-weight: 600;
 }
 
 .concert-card .card-bottom i {
-  margin-right: 4px;
-  font-size: 0.7rem;
-  color: var(--text-muted);
+  margin-right: 5px;
+  font-size: 0.75rem;
+  color: var(--text-on-card);
 }
 
 /* ---------- Empty State ---------- */
@@ -274,7 +278,7 @@ body {
   border-radius: 50%;
   border: none;
   background: var(--gradient-accent);
-  color: #fff;
+  color: var(--bg-primary);
   font-size: 1.4rem;
   display: flex;
   align-items: center;
@@ -338,13 +342,13 @@ body {
 }
 
 .year-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: none;
+  background: var(--bg-surface);
   color: var(--text-primary);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -386,9 +390,10 @@ body {
 }
 
 .month-name {
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 800;
+  font-size: 1.05rem;
   text-transform: capitalize;
+  color: var(--text-on-card);
 }
 
 .month-count {
@@ -396,16 +401,16 @@ body {
   align-items: center;
   gap: 6px;
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: var(--text-on-card-muted);
 }
 
 .month-count .count-num {
-  background: rgba(233, 69, 96, 0.15);
-  color: var(--accent);
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 0.72rem;
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--text-on-card);
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
 }
 
 .month-count i {
@@ -442,8 +447,8 @@ body {
 .month-concert-item {
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(42, 42, 62, 0.5);
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: background 0.15s;
   gap: 4px;
@@ -459,27 +464,28 @@ body {
 }
 
 .month-concert-item .mci-date {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--accent);
-  min-width: 46px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--text-on-card);
+  min-width: 48px;
 }
 
 .month-concert-item .mci-sep {
-  color: var(--text-muted);
-  margin: 0 4px;
+  color: var(--text-on-card-muted);
+  margin: 0 6px;
   font-size: 0.8rem;
 }
 
 .month-concert-item .mci-band {
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-on-card);
 }
 
 .month-concert-item .mci-place {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: var(--text-on-card-muted);
+  font-weight: 500;
 }
 
 .month-empty {
@@ -553,13 +559,13 @@ body {
 }
 
 .modal-close-btn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -690,18 +696,20 @@ body {
   padding: 12px 14px;
   background: var(--bg-card);
   border-radius: var(--radius-sm);
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--bg-primary);
+  color: var(--text-on-card);
 }
 
 .action-sheet-info .asi-band {
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 800;
+  font-size: 1rem;
   margin-bottom: 2px;
 }
 
 .action-sheet-info .asi-detail {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+  font-size: 0.85rem;
+  color: var(--text-on-card-muted);
+  font-weight: 500;
 }
 
 .action-btn {
@@ -722,15 +730,15 @@ body {
 }
 
 .action-btn.edit {
-  background: var(--bg-card);
+  background: var(--bg-surface);
   color: var(--text-primary);
   border: 1px solid var(--border);
 }
 
 .action-btn.delete {
-  background: rgba(255, 71, 87, 0.12);
+  background: rgba(255, 71, 87, 0.15);
   color: var(--danger);
-  border: 1px solid rgba(255, 71, 87, 0.25);
+  border: 1px solid rgba(255, 71, 87, 0.3);
 }
 
 .action-btn.cancel {
@@ -815,7 +823,7 @@ body {
 }
 
 .btn-confirm.cancel {
-  background: var(--bg-card);
+  background: var(--bg-surface);
   color: var(--text-secondary);
   border: 1px solid var(--border);
 }
@@ -836,13 +844,13 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 500;
-  padding: 12px 22px;
+  padding: 14px 24px;
   background: var(--bg-card);
-  color: var(--text-primary);
+  color: var(--text-on-card);
   border: 1px solid var(--border);
   border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
   box-shadow: var(--shadow-lg);
   animation: toastIn 0.3s ease;
   white-space: nowrap;

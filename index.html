@@ -29,6 +29,7 @@
 
   <!-- ============ VIEW: WEEKLY ============ -->
   <main id="view-weekly" class="view active">
+    <!-- Esta Semana -->
     <div class="view-header">
       <h2><i class="fas fa-calendar-week"></i> Esta Semana</h2>
       <span id="week-range" class="week-range"></span>
@@ -39,6 +40,20 @@
     <div id="weekly-empty" class="empty-state hidden">
       <div class="empty-icon">🎸</div>
       <p>No hay conciertos esta semana</p>
+      <span>Pulsa el botón para añadir uno</span>
+    </div>
+
+    <!-- Próxima Semana -->
+    <div class="view-header" style="margin-top: 32px;">
+      <h2><i class="fas fa-calendar-plus"></i> Próxima Semana</h2>
+      <span id="next-week-range" class="week-range"></span>
+    </div>
+    <div id="next-week-list" class="concert-list">
+      <!-- concerts injected here -->
+    </div>
+    <div id="next-week-empty" class="empty-state hidden">
+      <div class="empty-icon">🎸</div>
+      <p>No hay conciertos la próxima semana</p>
       <span>Pulsa el botón para añadir uno</span>
     </div>
   </main>
@@ -110,6 +125,11 @@
         <div class="form-group">
           <label for="field-date"><i class="fas fa-calendar-day"></i> Fecha</label>
           <input type="date" id="field-date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="field-time"><i class="fas fa-clock"></i> Hora de prueba de sonido</label>
+          <input type="time" id="field-time">
         </div>
 
         <div class="form-group">

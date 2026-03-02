@@ -71,6 +71,9 @@
   const weeklyList = $('#weekly-list');
   const weeklyEmpty = $('#weekly-empty');
   const weekRange = $('#week-range');
+  const nextWeeklyList = $('#next-week-list');
+  const nextWeeklyEmpty = $('#next-week-empty');
+  const nextWeekRange = $('#next-week-range');
   const monthsGrid = $('#months-grid');
   const calendarYearLabel = $('#calendar-year span');
   const btnPrevYear = $('#prev-year');
@@ -85,6 +88,7 @@
   const editIdInput = $('#edit-id');
   const fieldBand = $('#field-band');
   const fieldDate = $('#field-date');
+  const fieldTime = $('#field-time');
   const fieldType = $('#field-type');
   const fieldPlace = $('#field-place');
   const modalCloseBtn = $('#modal-close');
@@ -130,24 +134,43 @@
   // ────────────────────────── Weekly View ──────────────────────────
   function renderWeekly() {
     const today = new Date();
-    const start = getStartOfWeek(today);
-    const end = getEndOfWeek(start);
+    const startThisWeek = getStartOfWeek(today);
+    const endThisWeek = getEndOfWeek(startThisWeek);
 
-    weekRange.textContent = formatRange(start, end);
+    const startNextWeek = new Date(startThisWeek);
+    startNextWeek.setDate(startNextWeek.getDate() + 7);
+    const endNextWeek = getEndOfWeek(startNextWeek);
 
-    const weekly = concerts.filter(c => {
+    weekRange.textContent = formatRange(startThisWeek, endThisWeek);
+    nextWeekRange.textContent = formatRange(startNextWeek, endNextWeek);
+
+    const thisWeekly = concerts.filter(c => {
       const d = new Date(c.date + 'T00:00:00');
-      return d >= start && d <= end;
+      return d >= startThisWeek && d <= endThisWeek;
+    }).sort((a, b) => a.date.localeCompare(b.date));
+
+    const nextWeekly = concerts.filter(c => {
+      const d = new Date(c.date + 'T00:00:00');
+      return d >= startNextWeek && d <= endNextWeek;
     }).sort((a, b) => a.date.localeCompare(b.date));
 
     weeklyList.innerHTML = '';
-
-    if (weekly.length === 0) {
+    if (thisWeekly.length === 0) {
       weeklyEmpty.classList.remove('hidden');
     } else {
       weeklyEmpty.classList.add('hidden');
-      weekly.forEach(c => {
+      thisWeekly.forEach(c => {
         weeklyList.appendChild(createConcertCard(c));
+      });
+    }
+
+    nextWeeklyList.innerHTML = '';
+    if (nextWeekly.length === 0) {
+      nextWeeklyEmpty.classList.remove('hidden');
+    } else {
+      nextWeeklyEmpty.classList.add('hidden');
+      nextWeekly.forEach(c => {
+        nextWeeklyList.appendChild(createConcertCard(c));
       });
     }
   }
@@ -156,6 +179,7 @@
     const card = document.createElement('div');
     card.className = 'concert-card';
     card.dataset.id = c.id;
+    const timeHtml = c.time ? `<span><i class="fas fa-clock"></i>Hora: ${c.time}</span>` : '';
     card.innerHTML = `
       <div class="card-top">
         <span class="band-name">${esc(c.band)}</span>
@@ -163,6 +187,7 @@
       </div>
       <div class="card-bottom">
         <span><i class="fas fa-calendar-day"></i>${formatDateLong(c.date)}</span>
+        ${timeHtml}
         <span><i class="fas fa-map-marker-alt"></i>${esc(c.place)}</span>
       </div>
     `;
@@ -238,6 +263,7 @@
       editIdInput.value = c.id;
       fieldBand.value = c.band;
       fieldDate.value = c.date;
+      fieldTime.value = c.time || '';
       fieldType.value = c.type;
       fieldPlace.value = c.place;
     } else {
@@ -265,6 +291,7 @@
     const data = {
       band: fieldBand.value.trim(),
       date: fieldDate.value,
+      time: fieldTime.value,
       type: fieldType.value.trim(),
       place: fieldPlace.value.trim(),
     };
